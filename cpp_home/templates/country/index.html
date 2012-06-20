@@ -1,0 +1,43 @@
+{%extends "page.html"%}
+{%block title%}Country list :: Alphabetical{%endblock title%}
+{%block content%}
+<div id="content">
+<div class="grid_12">
+
+<h1 id="top">Country list
+    <ul class="inline linkbar">
+        <li>
+        Content:
+        <ul class="links">
+			<li><a href="/region/">Continents</a></li>
+			<li id="current">A-Z</li>
+        </ul>
+    </ul>
+</h1>
+</div>
+<div class="clear"></div>
+{% for key, list in sections %}
+<div class="grid_3">
+<h2 class="initial" id="">{{key}}</h2>
+</div>
+<div class="country-list grid_9">
+	{% for country in list %}
+<a href="/country/{{country.id}}" class="country">{{country.name}}</a><br/>
+	{% endfor %}
+</div>
+<div class="clear"></div>
+<hr/>
+{% endfor %}
+</div>
+{%endblock content%}
+
+
+<h1>Countries</h1>
+{% for key, list in sections %}
+<li><h1>{{key.name}}</h1><ul>
+	{% for country in list %}
+	<li><a href="{{country.id}}">{{country.name}}</a></li>
+	{% endfor %}
+</ul>
+</li>
+{% endfor %}

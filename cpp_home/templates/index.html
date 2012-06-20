@@ -1,0 +1,216 @@
+{%extends "page_cloudmade.html"%}
+{%block title%}Home{%endblock title%}
+{%block content%}
+
+<div id="map" style="height:480px; "></div>
+<div id="shareButtons">
+<span class="buttonBG"><img src="/static/img/embed.png"/></span>
+<span class="buttonBG"><img src="/static/img/FB.png"/></span>
+<span class="buttonBG"><img src="/static/img/twitter.png"/></span>
+<span class="buttonBG"><img src="/static/img/rss.png"/></span>
+</div>
+<div id ="MapPlayControls">
+<!--
+	SHOW: <strong><a href="about">TODAY</a></strong> : <a href="about"><span class="playcontroltext">LAST WEEK</span> </a> <strong> | </strong>
+		<span id="playbutt">
+			<img id="btPlay" src="/static/img/playButton.png"/>
+		</span>
+	<span class="playcontroltext">REPLAY LAST WEEK</span>
+-->
+	<span id="ts"></span>
+</div>
+
+<div id="homecountry" style="display:none">What's the state of the Internet in <a href="#" id="homecountry-link"><span id="homecountry-name"></span></a>?</div>
+
+
+<h1 class="float">Current Incidents</h1>
+<div class="source-note">&nbsp;(Based on <a href="about" class="data-source">dummy data</a>)</div>
+
+<div class="line"></div>
+
+<div style="width:850px;height:300px">
+
+<div style="width:400px;float:left">
+
+<ul class="incidents">
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/blackoutCelltower.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="about">Cell towers blackout in Germany >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/restrictionBandwidth.png"/></span>
+  	<span><strong>Restriction</strong></span>
+  	<span class="incidentBody"><a href="about">Bandwidth throttling in Belgium >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/attackServer.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="about">Server Seizure in Florida >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/attackDenial.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="about">Denial of Service attack in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/blackoutRadio.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="about">Radio Frequency Jamming in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+</ul>
+</div>
+
+<div style="width:320px;float:left;margin-left:100px">
+
+<ul class="incidents">
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/blackoutInternet.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="about">Internet blackout in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/restrictionBandwidth.png"/></span>
+  	<span><strong>Restriction</strong></span>
+  	<span class="incidentBody"><a href="about">Destination IP blocking in Syria >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/attackSitedefacement.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="about">Website Defacement in Paris >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/attackDenial.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="about">Denial of Service attack in Azabaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="/static/img/blackoutCelltower.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="about">Cell Towers blackout in Mongolia >></a></span>
+	<hr></hr>
+ </li>
+
+</ul>
+</div>
+
+</div>
+<script type="text/javascript">
+var map;
+var markers;
+var img_play = '/static/img/playButton.png';
+var img_pause = '/static/img/pauseButton.png';
+function pause(millis)
+{
+        var date = new Date();
+        var curDate = null;
+
+        do { curDate = new Date(); }
+        while(curDate-date < millis)
+}
+
+$(document).ready(function(){
+	map = new OpenLayers.Map('map',{
+         controls: [
+                   new OpenLayers.Control.Navigation(),
+                   new OpenLayers.Control.ZoomPanel()
+               ]
+    });
+	$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function(){
+		this.disableZoomWheel();
+	})
+	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
+	    key: '{{settings.CLOUDMADE_KEY}}',
+	    styleId: 48233
+	});
+	map.addLayer(cloudmade);
+    map.layers[0].animationEnabled = true;
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+	var prj =  new OpenLayers.Projection("EPSG:4326");
+    map.setCenter(new OpenLayers.LonLat(0,15).transform(prj,map.getProjectionObject()), 1.5);
+    var size = new OpenLayers.Size(8,8);
+    var offset = new OpenLayers.Pixel(4,4);
+    var icon = new OpenLayers.Icon('/static/img/red_Square_8px.gif',size,offset);
+    //var markerArray = new Array();
+    $.getScript('http://j.maxmind.com/app/country.js',function(){
+    	var code = geoip_country_code();
+    	$('#homecountry-link').attr('href','/country/'+code.toUpperCase());
+    	$('#homecountry-name').html(geoip_country_name());
+    	$('#homecountry').show();
+    });
+    $.ajax('incidents',{
+    	dataType: 'json',
+    	success: function(data,status,xhr) {
+    		for(var i=0; i<data.length; ++i) {
+    			var marker;
+    			var incident = data[i];
+    			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
+    			marker.incident = data[i];
+                marker.events.register('mousedown', marker, function(evt) { document.location='/country/'+this.incident.country; OpenLayers.Event.stop(evt); });
+                //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
+                //markerArray[i] = marker;
+                markers.addMarker(marker);
+    		}
+    	}
+    });
+    $('#btPlay').click(function(){
+        var anim = [];
+        $('#btPlay').attr('src',img_pause);
+        $.ajax('incident_timeline',{
+        	dataType: 'json',
+        	success: function(data,status,xhr) {
+            	markers.display(false);
+            	console.log("Animating...");
+        		for(var i=0; i<data.length; ++i) {
+        			var slice = data[i];
+        			var ts = slice.ts;
+        			var list = slice.data;
+        		    var layer = new OpenLayers.Layer.Markers( "Markers");
+        		    map.addLayer(layer);
+        			for(var j=0; j<list.length; ++j) {
+        				var incident = list[j];
+	        			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
+	                    markers.addMarker(marker);
+	                    map.addControl(new OpenLayers.Control.LayerSwitcher());
+        			}
+        			anim[i] = layer;
+        		}
+        		var i = 0;
+        		function animate() {
+                	console.log("Slide "+i);
+        			if(i<data.length) {
+            			var slice = data[i];
+            			var ts = slice.ts;
+            			$('#ts').html(i);
+            			anim[i].display(true);
+            			console.log("Anim "+i);
+            			console.log(ts);
+        				++i;
+                		setTimeout(animate,500);
+        			} else {
+        				console.log("done");
+            			$('#ts').html('');
+                    	markers.display(true);
+			$('#btPlay').attr('src',img_play);
+
+        			}
+        		}
+        		setTimeout(animate,500);
+        	}
+        });
+    });
+});
+</script>
+
+
+{%endblock content%}

@@ -1,0 +1,5 @@
+*.class
+*.pyc
+*.pyo
+cpp_home/settings_local.py
+.pydevproject
