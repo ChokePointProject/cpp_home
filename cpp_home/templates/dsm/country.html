@@ -7,17 +7,38 @@
 	<h3>January 28th, 2011</h3>
 </div>
 <div class="grid_6">
-
-	<div class="event">
-		<img src="/static/img/japan.jpg" class="small thumbnail"/>
-		<h2>Tsunami and nuclear disaster</h2>
-		Japan
-		<div class="timestamp">
-			March, 2011
-		</div>
-	</div>
-
-
+	<ul id="slider">
+		<li>
+			<div class="event">
+				<img src="/static/img/cairo.jpg"/>
+				<h2><a href="EG">Internet disconnect</a></h2>
+				Cairo, Egypt
+				<div class="timestamp">
+					January 28, 2011
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="event">
+				<img src="/static/img/japan.jpg" class="small thumbnail"/>
+				<h2><a href="JP">Tsunami and nuclear disaster</a></h2>
+				Japan
+				<div class="timestamp">
+					March, 2011
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="event">
+				<img src="/static/img/japan.jpg" class="small thumbnail"/>
+				<h2><a href="ES">Public relations disaster</a></h2>
+				Spain
+				<div class="timestamp">
+					June, 2012
+				</div>
+			</div>
+		</li>
+	</ul>
 </div>
 
 <hr class="thick grid_12"/>
@@ -69,21 +90,86 @@
 
 <script type="text/javascript" src="/static/js/country-view.js"></script>
 <script type="text/javascript">
-	var feat = {%if features_json%}{{features_json|safe}}{%else%}{}{%endif%}; // <% JSON->new->encode(\@feature) %>;
+		var feat = {%if features_json%}{{features_json|safe}}{%else%}{}{%endif%}; // <% JSON->new->encode(\@feature) %>;
 	$(document).ready(function() {
-//		$('#map').stickyScroll({});
-		setupMap({
-			features : feat,
-			api_key : '{{settings.CLOUDMADE_KEY}}',
-			extent : [ {
-				lat : {{country.bb_se_lat}},
-				lon : {{country.bb_se_lon}}
-			}, {
-				lat : {{country.bb_nw_lat}},
-				lon : {{country.bb_nw_lon}}
-			} ]
-		});
+	//		$('#map').stickyScroll({});
+	setupMap({
+	features : feat,
+	api_key : '{{settings.CLOUDMADE_KEY}}',
+	extent : [ {
+	lat : {{country.bb_se_lat}},
+	lon : {{country.bb_se_lon}}
+	}, {
+	lat : {{country.bb_nw_lat}},
+	lon : {{country.bb_nw_lon}}
+	} ]
 	});
-</script>
+	$('#slider').anythingSlider({
+
+	theme: 'minimalist-round',
+	mode: 'horizontal',
+	expand: false,
+	resizeContents: true,
+	showMultiple: false,
+	easing: "swing",
+	buildArrows: false,
+	buildNavigation: false,
+	buildStartStop: false,
+	appendFowardTo: null,
+	appendBackTo: null,
+	appendControlsTo: null,
+	appendNavigationTo: null,
+	appendStartStopTo: null,
+	toggleArrows: false,
+	toggleControls: false,
+	startText: "Start",
+	stopText: "Stop",
+	forwardText: "&raquo;",
+	backText: "&laquo;",
+	tooltipClass: 'tooltip',
+	enableArrows: true,
+	enableNavigation: true,
+	enableStartStop: true,
+	enableKeyboard: true,
+	startPanel: 1,
+	changeBy: 1,
+	hashTags: true,
+	infiniteSlides: true,
+	navigationFormatter: function(index, panel) {
+		return "" + index;
+	},
+	navigationSize: false,
+	autoPlay: true,
+	autoPlayLocked: false,
+	autoPlayDelayed: false,
+	pauseOnHover: true,
+	stopAtEnd: false,
+	playRtl: false,
+	delay: 5000,
+	resumeDelay: 15000,
+	animationTime: 600,
+	delayBeforeAnimate  : 0,
+	onBeforeInitialize: function(e, slider) {},
+	onInitialized: function(e, slider) {},
+	onShowStart: function(e, slider) {},
+	onShowStop: function(e, slider) {},
+	onShowPause: function(e, slider) {},
+	onShowUnpause: function(e, slider) {},
+	onSlideInit: function(e, slider) {},
+	onSlideBegin: function(e, slider) {},
+	onSlideComplete: function(slider) {},
+	clickForwardArrow: "click",
+	clickBackArrow: "click",
+	clickControls: "click focusin",
+	clickSlideshow: "click",
+	resumeOnVideoEnd: true,
+	resumeOnVisible: true,
+	addWmodeToObject: "opaque",
+	isVideoPlaying: function(base) {
+		return false;
+	}
+
+	});
+	});</script>
 
 {%endblock content%}

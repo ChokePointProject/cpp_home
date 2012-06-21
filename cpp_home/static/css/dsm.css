@@ -580,3 +580,14 @@ a.data-source {
 .event img.small {
 	height: 48px;
 }
+
+.event .timestamp {
+	color: #888;
+	font-size: 0.8em;
+}
+
+ul#slider, ul#slider li {
+    width: 420px;
+    height: 70px;
+    list-style: none;
+}
