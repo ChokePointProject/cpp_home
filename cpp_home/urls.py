@@ -21,3 +21,10 @@ urlpatterns = patterns('home.views',
     url(r'^country/(?P<country_id>\w+)$', 'country'),
 
 )
+
+urlpatterns += patterns('dsm.views',
+    url(r'^dsm/$', 'root'),
+    url(r'^dsm/about$', 'about'),
+    url(r'^dsm/country/(?P<country_id>\w+)$', 'country'),
+
+)
