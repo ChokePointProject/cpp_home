@@ -1,0 +1,89 @@
+{%extends "dsm/page.html"%}
+{%block title%}Home{%endblock title%}
+{%block content%}
+
+<div id="caption" class="grid_6">
+	<h2>{{country.name}}</h2>
+	<h3>January 28th, 2011</h3>
+</div>
+<div class="grid_6">
+
+	<div class="event">
+		<img src="/static/img/japan.jpg" class="small thumbnail"/>
+		<h2>Tsunami and nuclear disaster</h2>
+		Japan
+		<div class="timestamp">
+			March, 2011
+		</div>
+	</div>
+
+
+</div>
+
+<hr class="thick grid_12"/>
+
+<div class="grid_6">
+
+	<div id="map" style="height:320px; "></div>
+
+	<h2>{{country.name}} report</h2>
+	Bacon ipsum dolor sit amet bresaola sirloin fatback, beef ribs tongue meatloaf pastrami prosciutto ham. Prosciutto tri-tip swine, speck kielbasa spare ribs jerky flank leberkas meatball drumstick salami. Ham tongue ground round pork belly ham hock kielbasa, sirloin short ribs beef. Beef ribs shoulder shank flank. Chicken tri-tip ham hock tongue cow. Ball tip strip steak rump beef ribs speck, drumstick chicken pork corned beef filet mignon boudin. Swine hamburger jowl, short loin strip steak ham filet mignon chicken venison ribeye.
+
+</div>
+<div class="grid_6">
+
+	<h1>The state of the Internet in
+	<br/>
+	<span class="country">{{country.name}}</span></h1>
+
+	<hr class="thick"/>
+
+	<h2><a href="#" class="closed panel" id="connectivity">Connectivity Status</a></h2>
+	<div id="panel_connectivity" class="">
+		<span style="float:right"> <a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code={{country.id |u%>">API</a> </span>
+
+		<div>
+			Based on <a href="http://www.measurementlab.net/" class="data-source" target="_blank">M-Lab</a> data
+		</div>
+
+		{%if incident_count%}
+		<ul class="incident">
+			{% for incident in incidents %}
+			<li id="l{{incident.id}}"><a href="#" class="closed panel" id="{{incident.id}}"/><img src="/static/img/Icon_Attack_30px.png"/>
+				<span class="incident attack"> <span class="type">Blackout</span> <span class="description"> {{incident.name}} </span> <span class="ts">{{incident.ts}}</span> </span>
+				</a>
+				<div id="panel_{{incident.id}}" class="panel phidden">
+					{{incident.descr}} on {{incident.ts}}
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		{%else%}
+		<div class="info">
+			No connectivity incidents reported for {{country.name}}
+		</div>
+		{%endif%}
+	</div>
+
+</div>
+
+<script type="text/javascript" src="/static/js/country-view.js"></script>
+<script type="text/javascript">
+	var feat = {%if features_json%}{{features_json|safe}}{%else%}{}{%endif%}; // <% JSON->new->encode(\@feature) %>;
+	$(document).ready(function() {
+//		$('#map').stickyScroll({});
+		setupMap({
+			features : feat,
+			api_key : '{{settings.CLOUDMADE_KEY}}',
+			extent : [ {
+				lat : {{country.bb_se_lat}},
+				lon : {{country.bb_se_lon}}
+			}, {
+				lat : {{country.bb_nw_lat}},
+				lon : {{country.bb_nw_lon}}
+			} ]
+		});
+	});
+</script>
+
+{%endblock content%}

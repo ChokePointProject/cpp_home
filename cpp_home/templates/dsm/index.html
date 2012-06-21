@@ -1,0 +1,166 @@
+{%extends "dsm/page_cloudmade.html"%}
+{%block title%}Home{%endblock title%}
+{%block content%}
+
+<div id="caption" class="grid_7">
+	<h2>Hunting Internet Blackouts</h2>
+	<h3>Examining lost connections</h3>
+</div>
+<div class="grid_5">
+	<h4>Does the detection of lost connections bear any relation to 2 known events?</h4>
+</div>
+
+<hr class="thick grid_12"/>
+
+<div class="grid_7">
+
+	<div id="map" style="height:320px; "></div>
+
+	<h2>Why are we doing this?</h2>
+	Bacon ipsum dolor sit amet bresaola sirloin fatback, beef ribs tongue meatloaf pastrami prosciutto ham. Prosciutto tri-tip swine, speck kielbasa spare ribs jerky flank leberkas meatball drumstick salami. Ham tongue ground round pork belly ham hock kielbasa, sirloin short ribs beef. Beef ribs shoulder shank flank. Chicken tri-tip ham hock tongue cow. Ball tip strip steak rump beef ribs speck, drumstick chicken pork corned beef filet mignon boudin. Swine hamburger jowl, short loin strip steak ham filet mignon chicken venison ribeye.
+
+	<h2>What is it?</h2>
+	Bacon ipsum dolor sit amet bresaola sirloin fatback, beef ribs tongue meatloaf pastrami prosciutto ham. Prosciutto tri-tip swine, speck kielbasa spare ribs jerky flank leberkas meatball drumstick salami. Ham tongue ground round pork belly ham hock kielbasa, sirloin short ribs beef. Beef ribs shoulder shank flank. Chicken tri-tip ham hock tongue cow. Ball tip strip steak rump beef ribs speck, drumstick chicken pork corned beef filet mignon boudin. Swine hamburger jowl, short loin strip steak ham filet mignon chicken venison ribeye.
+
+	<h2>Methodology</h2>
+	Bacon ipsum dolor sit amet bresaola sirloin fatback, beef ribs tongue meatloaf pastrami prosciutto ham. Prosciutto tri-tip swine, speck kielbasa spare ribs jerky flank leberkas meatball drumstick salami. Ham tongue ground round pork belly ham hock kielbasa, sirloin short ribs beef. Beef ribs shoulder shank flank. Chicken tri-tip ham hock tongue cow. Ball tip strip steak rump beef ribs speck, drumstick chicken pork corned beef filet mignon boudin. Swine hamburger jowl, short loin strip steak ham filet mignon chicken venison ribeye.
+
+	<h3>Algorithm #1:</h3>
+	Venison ribeye biltong ball tip, tail chicken jerky meatball salami sausage shank. Frankfurter ground round turkey speck capicola spare ribs pork loin. Kielbasa turkey strip steak, ball tip chuck ham bresaola meatloaf flank. Shoulder shankle sausage, strip steak ham hock tail venison jerky drumstick. Boudin flank hamburger, drumstick beef prosciutto shankle cow.
+
+	<h3>Algorithm #2:</h3>
+	Venison ribeye biltong ball tip, tail chicken jerky meatball salami sausage shank. Frankfurter ground round turkey speck capicola spare ribs pork loin. Kielbasa turkey strip steak, ball tip chuck ham bresaola meatloaf flank. Shoulder shankle sausage, strip steak ham hock tail venison jerky drumstick. Boudin flank hamburger, drumstick beef prosciutto shankle cow.
+
+</div>
+<div class="grid_5">
+
+	<div class="event">
+		<img src="/static/img/cairo.jpg"/>
+		<h2><a href="country/EG">Internet disconnect</a></h2>
+		Cairo, Egypt
+		<div class="timestamp">
+			January 28, 2011
+		</div>
+	</div>
+
+	<div class="event">
+		<img src="/static/img/japan.jpg"/>
+		<h2><a href="country/JP">Tsunami and nuclear disaster</a></h2>
+		Japan
+		<div class="timestamp">
+			March, 2011
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	var map;
+	var markers;
+	var img_play = '/static/img/playButton.png';
+	var img_pause = '/static/img/pauseButton.png';
+	function pause(millis) {
+		var date = new Date();
+		var curDate = null;
+
+		do {
+			curDate = new Date();
+		} while(curDate-date < millis)
+	}
+
+
+	$(document).ready(function() {
+		map = new OpenLayers.Map('map', {
+			controls : [new OpenLayers.Control.Navigation(), new OpenLayers.Control.ZoomPanel()]
+		});
+		$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function() {
+			this.disableZoomWheel();
+		})
+		var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
+			key : '{{settings.CLOUDMADE_KEY}}',
+			styleId : 48233
+		});
+		map.addLayer(cloudmade);
+		map.layers[0].animationEnabled = true;
+		var markers = new OpenLayers.Layer.Markers("Markers");
+		map.addLayer(markers);
+		var prj = new OpenLayers.Projection("EPSG:4326");
+		map.setCenter(new OpenLayers.LonLat(0, 15).transform(prj, map.getProjectionObject()), 1.5);
+		var size = new OpenLayers.Size(8, 8);
+		var offset = new OpenLayers.Pixel(4, 4);
+		var icon = new OpenLayers.Icon('/static/img/red_Square_8px.gif', size, offset);
+		//var markerArray = new Array();
+		$.getScript('http://j.maxmind.com/app/country.js', function() {
+			var code = geoip_country_code();
+			$('#homecountry-link').attr('href', '/country/' + code.toUpperCase());
+			$('#homecountry-name').html(geoip_country_name());
+			$('#homecountry').show();
+		});
+		$.ajax('incidents', {
+			dataType : 'json',
+			success : function(data, status, xhr) {
+				for (var i = 0; i < data.length; ++i) {
+					var marker;
+					var incident = data[i];
+					marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon, incident.lat).transform(prj, map.getProjectionObject()), icon.clone());
+					marker.incident = data[i];
+					marker.events.register('mousedown', marker, function(evt) {
+						document.location = '/country/' + this.incident.country;
+						OpenLayers.Event.stop(evt);
+					});
+					//marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
+					//markerArray[i] = marker;
+					markers.addMarker(marker);
+				}
+			}
+		});
+		$('#btPlay').click(function() {
+			var anim = [];
+			$('#btPlay').attr('src', img_pause);
+			$.ajax('incident_timeline', {
+				dataType : 'json',
+				success : function(data, status, xhr) {
+					markers.display(false);
+					console.log("Animating...");
+					for (var i = 0; i < data.length; ++i) {
+						var slice = data[i];
+						var ts = slice.ts;
+						var list = slice.data;
+						var layer = new OpenLayers.Layer.Markers("Markers");
+						map.addLayer(layer);
+						for (var j = 0; j < list.length; ++j) {
+							var incident = list[j];
+							marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon, incident.lat).transform(prj, map.getProjectionObject()), icon.clone());
+							markers.addMarker(marker);
+							map.addControl(new OpenLayers.Control.LayerSwitcher());
+						}
+						anim[i] = layer;
+					}
+					var i = 0;
+					function animate() {
+						console.log("Slide " + i);
+						if (i < data.length) {
+							var slice = data[i];
+							var ts = slice.ts;
+							$('#ts').html(i);
+							anim[i].display(true);
+							console.log("Anim " + i);
+							console.log(ts); ++i;
+							setTimeout(animate, 500);
+						} else {
+							console.log("done");
+							$('#ts').html('');
+							markers.display(true);
+							$('#btPlay').attr('src', img_play);
+
+						}
+					}
+
+					setTimeout(animate, 500);
+				}
+			});
+		});
+	}); 
+</script>
+
+{%endblock content%}

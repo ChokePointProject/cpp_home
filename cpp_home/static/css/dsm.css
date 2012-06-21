@@ -1,0 +1,582 @@
+@font-face {font-family:MashineRoundedBold;
+    src: url("../font/MashineRounded-Bold.otf") format("opentype");
+}
+
+body {
+    background-color: #FFFFFF;
+}
+
+h1, h2, h3, h4 {
+		font-family:baskerville,'palatino linotype','times new roman',serif;
+}
+
+body.home {
+    background: #B1CED6 url("../img/bg.gif") top left repeat-x;
+
+}
+
+
+a {
+    color: #222;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #222;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+header {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ddd;
+}
+
+#subtitle {
+	color: #444;
+	font-weight: normal;
+	font-size:0.9em;
+	background-color: #ddd;
+	padding: 2px 4px;
+}
+
+#MapPlayControls{
+//float:left;
+position: absolute;
+top: 450px;
+width: 400px;
+margin-left: 1px;
+z-index: 9000;
+}
+
+#playbutt img {
+margin-bottom:4px;
+}
+
+.playcontroltext {
+font-size: 0.85em;
+
+}
+
+#shareButtons{
+//float:right;
+position: absolute;
+top: 450px;
+width: 400px;
+margin-left: 780px;
+z-index: 9000;
+
+
+}
+
+
+
+
+
+a#playbutton:hover {
+background: url("../img/playButton.png")no-repeat 0 0;
+}
+
+a#playbutton:active {
+background: url("../img/pauseButton.gif")no-repeat 0 0;
+
+
+}
+
+.incidents{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: -1em;
+
+}
+
+hr {
+	margin-left: -15px;
+}
+
+div.incidents ul li {
+}
+
+.line {
+border-top: #000 solid 2px;
+width:900px;
+clear:both;
+
+}
+
+footer {
+	color: #000;
+	font-size: 10px;
+	font-weight: bold;
+	//border-top: #000 solid 5px;
+	margin-top: 40px;
+	padding-top: 18px;
+	margin-bottom: 10px;
+	clear:both;
+}
+
+
+#bottomnav {
+	font-weight: normal;
+    float: right;
+
+    margin-right: 60px;
+    margin-bottom: 40px;
+}
+
+#bottomnav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#bottomnav ul li {
+    float: left;
+    margin: 0 0 0 16px;
+    padding: 2px 0.5em;
+}
+
+#bottomnav ul li a {
+    float: left;
+    text-decoration: none;
+    color: #444;
+}
+
+#bottomnav ul li a:visited {
+    float: left;
+    color: #444;
+}
+
+#bottomnav ul li a:hover {
+    text-decoration: underline;
+}
+
+
+
+#header {
+	background-color:#000;
+	color:#fff;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: bold;
+}
+
+#topnav {
+	font-size: 0.8em;
+    float: right;
+    margin-right: 20px;
+    margin-top: 24px;
+    text-transform: uppercase;
+    font-weight: 200;
+}
+
+#topnav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#topnav ul li {
+    float: left;
+    margin: 0 0 0 16px;
+    padding: 2px 0.5em;
+}
+
+#topnav ul li a {
+    float: left;
+    text-decoration: none;
+    color: #fff;
+}
+
+#topnav ul li a:visited {
+    float: left;
+    color: #fff;
+}
+
+#topnav ul li a:hover {
+    text-decoration: none;
+    color: #ddd;
+}
+
+
+#logobar {
+    clear: both;
+    margin-top: 32px;
+}
+
+#toppad {
+    background: #000;
+    float: left;
+    width: 60px;
+    height: 100px;
+}
+
+#logo {
+    float: left;
+    height: 100px;
+}
+
+#topbar {
+    float: left;
+    height: 100px;
+    width: 530px;
+    background-color: #000;
+}
+
+#topbar ul {
+    list-style: none;
+    position: absolute;
+    bottom: 0px;
+    right: 70px;
+    margin: 0;
+    padding: 0;
+}
+
+#topbar ul {
+    margin: 0 0 0 16px;
+}
+
+#topbar ul li {
+    float: left;
+    padding: 0 0px;
+}
+
+#topbar ul li.current {
+    background: url('../img/topbar-active.png') bottom center no-repeat;
+}
+
+#topbar a {
+    color: #aaa;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 16px 8px;
+    display: block;
+    text-transform: uppercase;
+}
+
+#topbar a:visited {
+    color: #aaa;
+}
+
+#topbar ul li.current a {
+    color: #fff;
+}
+
+#topbar a:hover {
+    text-decoration: underline;
+}
+
+#wrapper {
+    //background: #ddd;
+}
+
+#content {
+    margin-top: 40px;
+}
+
+h2.initial {
+    font-family: "MashineRoundedBold", "Helvetica Neue", "Arial", sans-serif;
+    font-size: 18pt;
+	font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+div.country-list {
+    -moz-column-count: 3;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 10px;
+    column-count: 3;
+    column-gap: 10px;
+}
+
+div.country-list a.country {
+	padding-left: 10px;
+}
+div.country-list a.hasdata:link {
+	background: transparent url('../img/country_not_clicked.png') center left no-repeat;
+}
+
+div.country-list a.hasdata:visited {
+	/*
+	 * Please note that background-image *will* be ignored: http://hacks.mozilla.org/2010/03/privacy-related-changes-coming-to-css-vistited/
+	 */
+	background: transparent url('../img/country_clicked.png') center left no-repeat;
+	color: #666;
+}
+
+#map {
+    background-color: #B0CDD5;
+}
+
+h1 {
+    font-family: "MashineRoundedBold", "Helvetica Neue", "Arial", sans-serif;
+    font-size: 18px;
+	font-weight: normal;
+    text-transform: uppercase;
+    margin: 8px 0px 2px 0px;
+}
+
+h2 {
+    font-size: 24px;
+	font-weight: bold;
+    margin: 8px 0px 2px 0px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #888;
+	margin: 2px 0px;
+}
+
+h4 {
+	text-align:center;
+    font-size: 18px;
+	color: #3f5563;
+	margin: 10px 0px;
+	line-height: 1.1;
+}
+
+#caption {
+	height: 80px;
+	border-right: 1px solid #ddd;
+	margin-right: -1px;
+}
+
+h1.float {
+	float:left;
+}
+
+h1 span.country {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 28px;
+    color: #fff;
+    background: #000;
+    padding: 2px 8px 2px 8px;
+    text-transform: uppercase;
+}
+
+.olControlPanZoom {
+    top: 180px !important;
+}
+
+.olControlZoomPanel div {
+	background-image: url('../img/zoom-new.png') !important;
+}
+
+div.olControlZoomPanel {
+	top: 160px !important;
+}
+
+div.olControlZoomToMaxExtentItemInactive {
+	display: none;
+}
+
+div.olControlZoomOutItemInactive {
+	top: 18px !important;
+}
+
+
+
+ul.linkbar {
+	font-family: "Helvetica Neue","Helvetica","Arial",sans-serif;
+	font-size: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 2em;
+}
+
+ul.linkbar > li {
+    width: 33%;
+    float: left;
+    text-align: right;
+    color: #888;
+    text-transform: uppercase;
+}
+
+ul.links {
+    clear: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+ul.links li {
+    float: left;
+    margin: 0 0 0 2px;
+    padding: 0px 2px;
+    background-color: #444;
+    color: #fff;
+}
+
+ul.links li a {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+}
+
+ul.links li a:visited {
+    color: #fff;
+}
+
+ul.links li a:hover {
+}
+
+ul.links li#current {
+	font-weight: bold;
+    background-color: #000;
+}
+
+hr.thick {
+    clear: both;
+    border-color: #000;
+    border-width: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+ul.single > li {
+	width: 100%;
+}
+
+ul.inline > li {
+	width: 100%;
+}
+
+ul.inline {
+	font-weight: normal;
+	font-size:9px;
+	width: 33%;
+	float: right;
+}
+
+/* Uncomment next section to make inline edit controls invisible by default, appear on hover
+
+h2 ul.inline {
+	display:none;
+}
+
+h2:hover ul.inline {
+	display:inline;
+}
+
+*/
+
+a.panel {
+	padding-left: 8px;
+}
+a.open {
+    background: transparent url("../img/panel_open.png") center left no-repeat;
+}
+a.closed {
+    background: transparent url("../img/panel_closed.png") center left no-repeat;
+}
+
+div.panel {
+	border-top: 1px solid #f8f8f8;
+	margin:4px 4px 4px 0px;
+	padding:8px 8px 8px 16px;
+}
+
+.phidden {
+	display:none;
+}
+
+ul.incident {
+	margin:0;
+	padding:0;
+}
+
+ul.incident li {
+	list-style: none;
+	padding:8px;
+}
+
+
+ul.incident li:nth-child(odd) {
+	background:#f8f8f8;
+}
+
+ul.incident li.highlighted {
+	background-color: #ffffbb;
+}
+
+#about {
+	margin: 80px 0px;
+	background: #fff;
+	padding: 32px;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+}
+
+
+.incident .ts {
+	float:right;
+	color: #888;
+    text-transform: uppercase;
+    font-size: 0.8em;
+}
+
+.incident .type {
+	font-weight: bold;
+}
+
+.attack .type {
+	color: #f00;
+}
+
+.restriction .type {
+	color: #ffb500;
+}
+
+.blackout .type {
+	color: #000;
+}
+
+a.data-source {
+	text-decoration: underline;
+}
+
+#homecountry {
+	margin-top: 5px;
+}
+
+#homecountry a {
+	text-decoration: underline;
+}
+
+.source-note {
+	margin: 15px 0 0 0;
+}
+
+.event {
+	height: 70px;
+	margin-top: 8px;
+	clear:both;
+}
+
+.event h2 {
+	font-size: 16px;
+	margin: 0px;
+}
+
+.event img {
+	float: left;
+	margin-right: 4px;
+	width: 100px;
+}
+
+.event img.small {
+	height: 48px;
+}
